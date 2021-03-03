@@ -168,7 +168,7 @@ namespace OrderMeetingRoom
                     continue;
                 }
                 HttpClient httpClient = new HttpClient(filter);
-                HttpStringContent content = new HttpStringContent("rid=" + rid + "&uid="+uid+"&st=" + datetime.ToString("yyyy-MM-dd HH:mm:ss") + "&et=" + datetime.ToString("yyyy-MM-dd ")+ EndDateTime.ToString("HH:mm:ss") + "&desc=討論班", Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/x-www-form-urlencoded");
+                HttpStringContent content = new HttpStringContent("rid=" + rid + "&uid="+uid+"&st=" + datetime.ToString("yyyy-MM-dd HH:mm:ss") + "&et=" + datetime.ToString("yyyy-MM-dd ")+ EndDateTime.ToString("HH:mm:ss") + "&desc="+ DescryptionBlock.Text, Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/x-www-form-urlencoded");
 
                 HttpRequestResult requestResult = await httpClient.TryPostAsync(new Uri("https://a.rouor.com/LoisMeeting/record/add"), content);
                 if (requestResult.Succeeded)
@@ -240,49 +240,6 @@ namespace OrderMeetingRoom
                                 }
                             }
                         }
-                    }
-                    else
-                    {
-                        Status.Insert(0, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss   ") + resultJsonObject.GetNamedString("e"));
-                    }
-                }
-            }
-        }
-
-        private void DeleteRecordButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private async void DeleteButton_Click(object sender, RoutedEventArgs e)
-        {
-            //DateTimeOffset StartDateTime = (DateTimeOffset)StartDatePicker.Date.Value.Date + StartTimePicker.Time;
-            //DateTimeOffset EndDateTime = (DateTimeOffset)EndDatePicker.Date.Value.Date + EndTimePicker.Time;
-            Button button = sender as Button;
-            Record record = button.DataContext as Record;
-
-            var filter = new HttpBaseProtocolFilter();
-            filter.IgnorableServerCertificateErrors.Add(ChainValidationResult.Expired);
-            filter.IgnorableServerCertificateErrors.Add(ChainValidationResult.Untrusted);
-            filter.IgnorableServerCertificateErrors.Add(ChainValidationResult.InvalidName);
-            HttpClient httpClient = new HttpClient(filter); HttpStringContent content = new HttpStringContent("id=" + record.Id, Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/x-www-form-urlencoded");
-
-            HttpRequestResult requestResult = await httpClient.TryPostAsync(new Uri("https://a.rouor.com/LoisMeeting/record/del"), content);
-            if (requestResult.Succeeded)
-            {
-                if (JsonObject.TryParse(requestResult.ResponseMessage.Content.ToString(), out JsonObject resultJsonObject))
-                {
-                    if (resultJsonObject.GetNamedNumber("r") == 0)
-                    {
-                        //Record record = new Record();
-                        //record.StartDateTime = StartDateTime;
-                        //record.EndDateTime = EndDateTime;
-                        //record.MeetingRoom = RoomComboBox.SelectedItem.ToString();
-                        //record.UserName = "劉剛";
-                        //record.Description = "討論班";
-                        //Records.Insert(0, record);
-                        Records.Remove(record);
-                        Status.Insert(0, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss   ") + "取消成功");
                     }
                     else
                     {
