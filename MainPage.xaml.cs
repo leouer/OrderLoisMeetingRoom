@@ -51,59 +51,7 @@ namespace OrderMeetingRoom
 
         public async void LoadUsers()
         {
-            //string userstring = "[";
-            //var filter = new HttpBaseProtocolFilter();
-            //filter.IgnorableServerCertificateErrors.Add(ChainValidationResult.Expired);
-            //filter.IgnorableServerCertificateErrors.Add(ChainValidationResult.Untrusted);
-            //filter.IgnorableServerCertificateErrors.Add(ChainValidationResult.InvalidName);
-            //HttpClient httpClient = new HttpClient(filter);
-            //for (int i = 0; i < 1000; i++)
-            //{
-            //    HttpStringContent content = new HttpStringContent("uid="+i+"&st=2017-06-01 00:00:00&et=2029-09-01 00:00:00&pi=0&ps=100", Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/x-www-form-urlencoded");
-
-            //    HttpRequestResult requestResult = await httpClient.TryPostAsync(new Uri("https://a.rouor.com/LoisMeeting/record/my"), content);
-            //    if (requestResult.Succeeded)
-            //    {
-            //        if (JsonObject.TryParse(requestResult.ResponseMessage.Content.ToString(), out JsonObject resultJsonObject))
-            //        {
-            //            if (resultJsonObject.GetNamedNumber("r") == 0)
-            //            {
-            //                JsonArray dataJsonArray = resultJsonObject.GetNamedArray("d");
-            //                if (dataJsonArray.Count <= 0)
-            //                {
-            //                    //Status.Insert(0, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss   ") + "該時間段内沒有預訂會議室！");
-            //                    //return;
-            //                    continue;
-            //                }
-            //                else
-            //                {
-            //                    User user = new User();
-
-            //                    user.UserId = (int)dataJsonArray.GetObjectAt(0).GetNamedNumber("uid");
-            //                    user.UserName = dataJsonArray.GetObjectAt(0).GetNamedString("uname");
-            //                    if (!Users.Contains(user))
-            //                    {
-            //                        Users.Add(user);
-            //                        userstring += "{\"uid\":" + user.UserId + ",\"uname\":" + user.UserName + "},";
-            //                    }
-            //                }
-            //            }
-            //            else
-            //            {
-            //                Status.Insert(0, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss   ") + resultJsonObject.GetNamedString("e"));
-            //            }
-            //        }
-            //    }
-            //}
-
-            //if(userstring.Length>1)
-            //{
-            //    userstring = userstring.Remove(userstring.Length - 1);
-            //}
-            //userstring += "]";
             StorageFile file =await Windows.Storage.ApplicationData.Current.LocalFolder.CreateFileAsync("Users.json", CreationCollisionOption.OpenIfExists);
-
-            //await FileIO.WriteTextAsync(file, userstring);
 
             string userstxt = await FileIO.ReadTextAsync(file);
             if (JsonArray.TryParse(userstxt, out JsonArray UsersJsonArray))
@@ -221,13 +169,6 @@ namespace OrderMeetingRoom
                     {
                         if (resultJsonObject.GetNamedNumber("r") == 0)
                         {
-                            //Record record = new Record();
-                            //record.StartDateTime = StartDateTime;
-                            //record.EndDateTime = EndDateTime;
-                            //record.MeetingRoom = RoomComboBox.SelectedItem.ToString();
-                            //record.UserName = "劉剛";
-                            //record.Description = "討論班";
-                            //Records.Insert(0, record);
                             Status.Insert(0, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss   ") + "預訂成功");
                         }
                         else
