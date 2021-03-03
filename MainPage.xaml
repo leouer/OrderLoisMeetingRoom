@@ -22,7 +22,6 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -74,10 +73,9 @@
 
         <Button x:Name="QueryRoomButton" Grid.Row="5" Grid.Column="0" Content="查詢空會議室" FontSize="16" Foreground="DarkGray" Click="QueryRoomButton_Click"/>
         <Button x:Name="OrderRoomButton" Grid.Row="5" Grid.Column="1" Content="預訂會議室" FontSize="16" Foreground="DarkGray" Click="OrderRoomButton_Click"/>
-        <Button x:Name="QueryRecordButton" Grid.Row="6" Grid.Column="0" Content="查詢我的預訂" FontSize="16" Foreground="DarkGray" Click="QueryRecordButton_Click"/>
-        <Button x:Name="DeleteRecordButton" Grid.Row="6" Grid.Column="1" Content="取消預訂" FontSize="16" Foreground="DarkGray" Click="DeleteRecordButton_Click" Visibility="Collapsed"/>
+        <Button x:Name="QueryRecordButton" Grid.Row="5" Grid.Column="2" Content="查詢我的預訂" FontSize="16" Foreground="DarkGray" Click="QueryRecordButton_Click"/>
 
-        <ListView x:Name="RecordListView"  Grid.Row="8" Grid.ColumnSpan="3" BorderBrush="Gray" BorderThickness="0,1,0,0">
+        <ListView x:Name="RecordListView"  Grid.Row="7" Grid.ColumnSpan="3" BorderBrush="Gray" BorderThickness="0,1,0,0">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
@@ -92,7 +90,7 @@
             </ListView.ItemTemplate>
         </ListView>
 
-        <ListView x:Name="StatusListView" Grid.Row="7" Grid.ColumnSpan="3" MaxHeight="66">
+        <ListView x:Name="StatusListView" Grid.Row="6" Grid.ColumnSpan="3" MaxHeight="66">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding}" FontSize="16" Foreground="DarkGray" TextWrapping="Wrap"/>
