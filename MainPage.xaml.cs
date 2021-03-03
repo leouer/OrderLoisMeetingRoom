@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -90,6 +90,14 @@ namespace OrderMeetingRoom
         {
             DateTimeOffset StartDateTime = (DateTimeOffset)StartDatePicker.Date.Value.Date + StartTimePicker.Time;
             DateTimeOffset EndDateTime = (DateTimeOffset)EndDatePicker.Date.Value.Date + EndTimePicker.Time;
+            if (StartDateTime.DateTime.Minute % 15 != 0)
+            {
+                StartDateTime = StartDateTime - TimeSpan.FromMinutes(StartDateTime.DateTime.Minute % 15);
+            }
+            if (EndDateTime.DateTime.Minute % 15 != 0)
+            {
+                EndDateTime = EndDateTime + TimeSpan.FromMinutes(15 - EndDateTime.DateTime.Minute % 15);
+            }
 
             var filter = new HttpBaseProtocolFilter();
             filter.IgnorableServerCertificateErrors.Add(ChainValidationResult.Expired);
@@ -130,20 +138,20 @@ namespace OrderMeetingRoom
 
         private async void OrderRoomButton_Click(object sender, RoutedEventArgs e)
         {
-            if(StartTimePicker.Time.Minutes%15!=0)
-            {
-                StartTimePicker.Time = StartTimePicker.Time - TimeSpan.FromMinutes(StartTimePicker.Time.Minutes % 15);
-            }
-            if (EndTimePicker.Time.Minutes % 15 != 0)
-            {
-                EndTimePicker.Time = EndTimePicker.Time + TimeSpan.FromMinutes(15-EndTimePicker.Time.Minutes % 15);
-            }
             DateTimeOffset StartDateTime = (DateTimeOffset)StartDatePicker.Date.Value.Date + StartTimePicker.Time;
             DateTimeOffset EndDateTime = (DateTimeOffset)EndDatePicker.Date.Value.Date + EndTimePicker.Time;
+            if(StartDateTime.DateTime.Minute%15!=0)
+            {
+                StartDateTime = StartDateTime - TimeSpan.FromMinutes(StartDateTime.DateTime.Minute % 15);
+            }
+            if (EndDateTime.DateTime.Minute % 15 != 0)
+            {
+                EndDateTime = EndDateTime + TimeSpan.FromMinutes(15-EndDateTime.DateTime.Minute % 15);
+            }
 
             if(RepeatBox.IsChecked==false)
             {
-                EndDateTime = (DateTimeOffset)StartDatePicker.Date.Value.Date + EndTimePicker.Time;
+                EndDateTime = (DateTimeOffset)StartDateTime.DateTime.Date.Date + EndTimePicker.Time;
             }
             string dayofweek = DayOfWeekComboBox.SelectedItem.ToString();
             int rid = RoomComboBox.SelectedIndex + 1;
@@ -169,6 +177,13 @@ namespace OrderMeetingRoom
                     {
                         if (resultJsonObject.GetNamedNumber("r") == 0)
                         {
+                            //Record record = new Record();
+                            //record.StartDateTime = StartDateTime;
+                            //record.EndDateTime = EndDateTime;
+                            //record.MeetingRoom = RoomComboBox.SelectedItem.ToString();
+                            //record.UserName = "劉剛";
+                            //record.Description = "討論班";
+                            //Records.Insert(0, record);
                             Status.Insert(0, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss   ") + "預訂成功");
                         }
                         else
